@@ -1,38 +1,43 @@
-.App {
-  text-align: center;
+button.full-size {
+    width: 100%;
+    height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+textarea {
+    resize: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.ChatWindow {
+    height: 25vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre;
+    border: 1px solid gray;
+    border-radius: 0.5em;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.ChoicesArea {
+    display: block;
+    text-align: center;
 }
 
-.App-link {
-  color: #61dafb;
+.ChoicesArea button {
+    width: unset;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.GPTLoadingIcon {
+    margin: auto;
+    border: 0.5em solid #fff;
+    border-top: 0.5em solid #48f;
+    border-radius: 50%;
+    width: 3em;
+    height: 3em;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

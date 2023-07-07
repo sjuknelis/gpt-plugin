@@ -1,8 +1,8 @@
-let message = {status: "wait"};
+let outgoingMessage = {status: "wait"};
 
 function objectForElement(el) {
     return {
-        message: el.getElementsByClassName("story-message")[0].innerText,
+        content: el.getElementsByClassName("story-message")[0].innerText,
         author: (el.getElementsByClassName("user-name")[0] || {innerText: null}).innerText
     }
 }
@@ -10,18 +10,21 @@ function objectForElement(el) {
 window.addEventListener("load",() => {
     console.log("gpt plugin");
     setInterval(() => {
-        let data = [];
+        let messages = [];
         for ( const el of document.getElementsByClassName("up-d-story-item") ) {
-            data.push(objectForElement(el));
+            messages.push(objectForElement(el));
         }
-        message = {
+        outgoingMessage = {
             status: "ready",
-            data
+            messages
         };
     },250);
 });
 
 // eslint-disable-next-line no-undef
-chrome.runtime.onMessage.addListener(function(senderMessage,sender,sendResponse) {
-    sendResponse(message);
+chrome.runtime.onMessage.addListener((incomingMessage,sender,sendResponse) => {
+    if ( incomingMessage.type == "submit_text" ) {
+        document.getElementsByClassName("ProseMirror")[0].children[0].innerText = incomingMessage.data;
+    }
+    sendResponse(outgoingMessage);
 });
