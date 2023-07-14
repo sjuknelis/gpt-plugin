@@ -1,23 +1,43 @@
-import ChatbotInterface from './ChatbotInterface';
+import { useEffect, useState } from 'react';
+import InterviewChatbot from './InterviewChatbot';
+import SettingsMenu from './SettingsMenu';
 import './App.css';
 
-async function gptRequest(message) {
-    return new Promise((resolve,reject) => {
-        setTimeout(() => {
-            resolve("1. a\n2. b\n3. c")
-        },3000);
-    });
-}
-
 export default function App() {
+    const [settings,setSettings] = useState(
+        localStorage.getItem("settings") ?
+        JSON.parse(localStorage.getItem("settings")) :
+        {resume: "", jobDescription: ""}
+    );
+
+    useEffect(() => {
+        localStorage.setItem("settings",JSON.stringify(settings));
+    },[settings]);
+
+    const [activeMenu,setActiveMenu] = useState("settings");
+
+    const menus = {
+        settings: <SettingsMenu settings={settings} setSettings={setSettings} />,
+        interview: <InterviewChatbot settings={settings} />
+    };
+
+    const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
+
     return (
-        <ChatbotInterface
-            choiceFormula={async question => {
-                return (await gptRequest("x")).split("\n");
-            }}
-            answerFormula={async choice => {
-                return await gptRequest("y");
-            }}
-        />
-    )
+        <>
+            <div className="row menu">
+                <div className="col">
+                    <a className="menu-brand" href="#">GPT-Coworker</a>
+                </div>
+                {
+                    Object.keys(menus).map(menu => (
+                        <div className="col">
+                            <a className={menu == activeMenu ? "active" : ""} onClick={() => setActiveMenu(menu)} href="#">{ capitalize(menu) }</a>
+                        </div>
+                    ))
+                }
+            </div>
+            { menus[activeMenu] }
+        </>
+    );
 }

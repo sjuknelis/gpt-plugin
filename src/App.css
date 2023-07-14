@@ -1,0 +1,20 @@
+.menu {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid gray;
+}
+
+.menu .col {
+    text-align: center;
+}
+
+.menu a {
+    font-size: 120%;
+    color: gray;
+    text-decoration: none;
+}
+
+.menu a.menu-brand,.menu a.active {
+    color: black;
+}

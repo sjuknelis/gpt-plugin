@@ -2,7 +2,8 @@
 
 body {
     font-family: "Comfortaa";
-    margin: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
     width: 600px;
     height: calc(600px - 2rem);
 }
