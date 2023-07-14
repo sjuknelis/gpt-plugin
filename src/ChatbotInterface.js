@@ -15,7 +15,7 @@ async function gptLoadingWrapper(func,callback,setIsGPTLoading) {
     callback(data);
 }
 
-export default function ChatbotInterface({ choiceFormula,answerFormula }) {
+export default function ChatbotInterface({ choiceFormula, answerFormula }) {
     const [chatQuestion,setChatQuestion] = useState("");
     const [submittedQuestion,setSubmittedQuestion] = useState("");
     const [choice,setChoice] = useState("");
@@ -72,7 +72,7 @@ function ChatWindow({ submitQuestion }) {
     );
 }
 
-function QuestionArea({ initialQuestion,submitQuestion }) {
+function QuestionArea({ initialQuestion, submitQuestion }) {
     const [question,setQuestion] = useState("");
 
     useEffect(() => {
@@ -91,7 +91,7 @@ function QuestionArea({ initialQuestion,submitQuestion }) {
     );
 }
 
-function ChoicesArea({ question,submitChoice,choiceFormula }) {
+function ChoicesArea({ question, submitChoice, choiceFormula }) {
     const [choices,setChoices] = useState(null);
     const [isGPTLoading,setIsGPTLoading] = useState(false);
 
@@ -110,7 +110,7 @@ function ChoicesArea({ question,submitChoice,choiceFormula }) {
     );
 }
 
-function AnswerArea({ choice,answerFormula }) {
+function AnswerArea({ choice, answerFormula }) {
     const [answer,setAnswer] = useState("");
     const [isGPTLoading,setIsGPTLoading] = useState(false);
         
