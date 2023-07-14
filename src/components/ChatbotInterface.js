@@ -97,7 +97,7 @@ function ChoicesArea({ question, submitChoice, choiceFormula }) {
 
     useEffect(() => {
         if ( question != "" ) gptLoadingWrapper(async () => choiceFormula(question),setChoices,setIsGPTLoading);
-    },[question]);
+    },[question,choiceFormula]);
 
     if ( isGPTLoading ) return (<GPTLoadingIcon />);
     if ( choices == null ) return null;
@@ -116,7 +116,7 @@ function AnswerArea({ choice, answerFormula }) {
         
     useEffect(() => {
         if ( choice != "" ) gptLoadingWrapper(async () => answerFormula(choice),setAnswer,setIsGPTLoading);
-    },[choice]);
+    },[choice,answerFormula]);
 
     function submitAnswer() {
         getTabID(id => {

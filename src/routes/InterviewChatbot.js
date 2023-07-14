@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import ChatbotInterface from './ChatbotInterface';
+import ChatbotInterface from '../components/ChatbotInterface';
+import useSettings from '../hooks/useSettings';
 
-export default function InterviewChatbot({ settings }) {
+export default function InterviewChatbot() {
+    const [settings,setSettings] = useSettings();
+
     const [messageHistory,setMessageHistory] = useState([
         {role: "system", content: `You are an assistant helping a freelancer during an interview with a potential client. Here is the freelancer's resume: ${settings.resume}`},
         {role: "system", content: `Here is the job description: ${settings.jobDescription}`}

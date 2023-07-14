@@ -1,6 +1,8 @@
-import './SettingsMenu.css';
+import useSettings from '../hooks/useSettings';
 
-export default function SettingsMenu({ settings, setSettings }) {
+export default function SettingsMenu() {
+    const [settings,setSettings] = useSettings();
+
     return (
         <>
             <PDFItem settings={settings} setSettings={setSettings} settingsKey="resume" title="Resume" />
