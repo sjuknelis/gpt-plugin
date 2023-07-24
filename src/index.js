@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import SettingsMenu from "./routes/SettingsMenu";
 import InterviewChatbot from "./routes/InterviewChatbot";
 import TimelineChatbot from "./routes/TimelineChatbot";
+import FinancialChatbot from "./routes/FinancialChatbot";
 
 const routes = [
     {
@@ -22,6 +23,11 @@ const routes = [
         path: "/timeline",
         element: <TimelineChatbot />,
         title: "Timeline"
+    },
+    {
+        path: "/financial",
+        element: <FinancialChatbot />,
+        title: "Financial"
     }
 ];
 

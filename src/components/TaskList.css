@@ -1,0 +1,35 @@
+.TaskList {
+    border: 1px solid gray;
+    border-radius: 0.5em;
+}
+
+.TaskList-Row {
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
+}
+
+.TaskList-Box {
+    display: block;
+    margin: auto;
+    width: 2em;
+    height: 2em;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.TaskList-BoxGreen {
+    background-color: lightgreen;
+}
+
+.TaskList-BoxYellow {
+    background-color: gold;
+}
+
+.TaskList-BoxWhite {
+    background-color: white;
+}
+
+.TaskList-Name {
+    display: flex;
+    align-items: center;
+}
