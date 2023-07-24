@@ -1,14 +1,16 @@
 import { useState } from 'react';
+import Navbar from './components/Navbar';
 import InterviewChatbot from './routes/InterviewChatbot';
 import SettingsMenu from './routes/SettingsMenu';
-import Navbar from './components/Navbar';
+import TimelineChatbot from './routes/TimelineChatbot';
 
 export default function App() {
     const [activeRoute,setActiveRoute] = useState("settings");
 
     const routes = {
         settings: <SettingsMenu />,
-        interview: <InterviewChatbot />
+        interview: <InterviewChatbot />,
+        timeline: <TimelineChatbot />
     };
 
     return (

@@ -15,7 +15,7 @@ async function gptLoadingWrapper(func,callback,setIsGPTLoading) {
     callback(data);
 }
 
-export default function ChatbotInterface({ choiceFormula, answerFormula }) {
+export default function ChatbotInterface({ choiceFormula, choiceCommentFormula, answerFormula }) {
     const [chatQuestion,setChatQuestion] = useState("");
     const [submittedQuestion,setSubmittedQuestion] = useState("");
     const [choice,setChoice] = useState("");
@@ -26,7 +26,7 @@ export default function ChatbotInterface({ choiceFormula, answerFormula }) {
             <br />
             <QuestionArea initialQuestion={chatQuestion} submitQuestion={setSubmittedQuestion} />
             <br />
-            <ChoicesArea question={submittedQuestion} submitChoice={setChoice} choiceFormula={choiceFormula} />
+            <ChoicesArea question={submittedQuestion} submitChoice={setChoice} choiceFormula={choiceFormula} choiceCommentFormula={choiceCommentFormula} />
             <br />
             <AnswerArea choice={choice} answerFormula={answerFormula} />
         </div>
@@ -91,21 +91,31 @@ function QuestionArea({ initialQuestion, submitQuestion }) {
     );
 }
 
-function ChoicesArea({ question, submitChoice, choiceFormula }) {
+function ChoicesArea({ question, submitChoice, choiceFormula, choiceCommentFormula }) {
     const [choices,setChoices] = useState(null);
+    const [choiceComment,setChoiceComment] = useState(null);
     const [isGPTLoading,setIsGPTLoading] = useState(false);
 
     useEffect(() => {
-        if ( question != "" ) gptLoadingWrapper(async () => choiceFormula(question),setChoices,setIsGPTLoading);
+        if ( question != "" ) {
+            gptLoadingWrapper(async () => choiceFormula(question),setChoices,setIsGPTLoading);
+            if ( choiceCommentFormula ) gptLoadingWrapper(async () => choiceCommentFormula(question),setChoiceComment,setIsGPTLoading);
+        }
     },[question,choiceFormula]);
 
     if ( isGPTLoading ) return (<GPTLoadingIcon />);
+
     if ( choices == null ) return null;
+
     return (
         <div className="row ChoicesArea">
             { choices.map(choice => (
-                <button class="btn btn-outline-primary" onClick={() => submitChoice(choice)}>{ choice }</button>
+                <button className="btn btn-outline-primary" onClick={() => submitChoice(choice)}>{ choice }</button>
             )) }
+
+            { choiceComment != null ? (
+                <p className="ChoicesArea-GPTRecommendation">GPT Recommendation: { choiceComment }</p>
+            ) : null }
         </div>
     );
 }

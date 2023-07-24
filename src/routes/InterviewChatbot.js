@@ -1,28 +1,17 @@
-import { useState } from 'react';
-import ChatbotInterface from '../components/ChatbotInterface';
-import useSettings from '../hooks/useSettings';
+import { useEffect } from "react";
+import ChatbotInterface from "../components/ChatbotInterface";
+import useSettings from "../hooks/useSettings";
+import { messageHistory, gptRequest } from "../gpt";
 
 export default function InterviewChatbot() {
     const [settings,setSettings] = useSettings();
 
-    const [messageHistory,setMessageHistory] = useState([
-        {role: "system", content: `You are an assistant helping a freelancer during an interview with a potential client. Here is the freelancer's resume: ${settings.resume}`},
-        {role: "system", content: `Here is the job description: ${settings.jobDescription}`}
-    ]);
-
-    async function gptRequest(messageContent) {
-        const message = {role: "user", content: messageContent};
-        const fetchResponse = await fetch("http://localhost:8000/gpt_request",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(messageHistory.concat([message]))
-        });
-        const response = await fetchResponse.json();
-        setMessageHistory(messageHistory.concat([message,response]));
-        return response.content;
-    }
+    useEffect(() => {
+        messageHistory = [
+            {role: "system", content: `You are an assistant helping a freelancer during an interview with a potential client. Here is the freelancer's resume: ${settings.resume}`},
+            {role: "system", content: `Here is the job description: ${settings.jobDescription}`}
+        ];
+    },[]);
 
     return (
         <ChatbotInterface

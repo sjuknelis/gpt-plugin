@@ -1,12 +1,14 @@
 const express = require("express");
-const app = express();
+const fs = require("fs");
 const cors = require("cors");
 const { Configuration, OpenAIApi } = require("openai");
 
 const config = new Configuration({
-    apiKey: "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"
+    apiKey: fs.readFileSync("apikey.txt").toString()
 });
 const openai = new OpenAIApi(config);
+
+const app = express();
 
 app.use(cors());
 

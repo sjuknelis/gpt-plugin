@@ -2,7 +2,7 @@
     height: 25vh;
     overflow-x: hidden;
     overflow-y: auto;
-    white-space: pre;
+    white-space: pre-wrap;
     border: 1px solid gray;
     border-radius: 0.5em;
 }
@@ -16,6 +16,12 @@
     width: unset;
     margin-left: 0.5em;
     margin-right: 0.5em;
+}
+
+.ChoicesArea-GPTRecommendation {
+    color: gray;
+    font-size: 90%;
+    white-space: pre-wrap;
 }
 
 .GPTLoadingIcon {
