@@ -8,6 +8,10 @@ body {
     height: calc(600px - 2rem);
 }
 
+.App {
+    padding-bottom: 1rem;
+}
+
 button.full-size {
     width: 100%;
     height: 100%;

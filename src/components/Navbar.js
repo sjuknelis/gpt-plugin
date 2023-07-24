@@ -1,7 +1,10 @@
+import { Link, useLocation } from 'react-router-dom';
 import './Navbar.css';
 
-export default function Navbar({ routes, activeRoute, setActiveRoute }) {
-    const capitalize = s => s.charAt(0).toUpperCase() + s.slice(1);
+export default function Navbar({ routes }) {
+    const getRoutePath = route => route.index ? "/" : route.path;
+
+    const { pathname } = useLocation();
 
     return (
         <div className="row Navbar">
@@ -9,9 +12,9 @@ export default function Navbar({ routes, activeRoute, setActiveRoute }) {
                 <a className="brand" href="#">GPT-Coworker</a>
             </div>
             {
-                Object.keys(routes).map(route => (
+                routes.map(route => (
                     <div className="col">
-                        <a className={route == activeRoute ? "active" : ""} onClick={() => setActiveRoute(route)} href="#">{ capitalize(route) }</a>
+                        <Link to={getRoutePath(route)} className={pathname == getRoutePath(route) ? "active" : ""}>{ route.title }</Link>
                     </div>
                 ))
             }
