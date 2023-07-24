@@ -15,6 +15,7 @@ export default function InterviewChatbot() {
 
     return (
         <ChatbotInterface
+            questionPlaceholder="Interviewer question"
             choiceFormula={async question => {
                 return (await gptRequest(`The client just asked this question: "${question}" Based on the freelancer's resume and the job description, describe three categories of response that the freelancer might give to this question, each in four words or less.`)).split("\n");
             }}

@@ -1,30 +1,37 @@
 import { useEffect, useState } from 'react';
 import './ChatbotInterface.css';
 
-function getTabID(callback) {
-    // eslint-disable-next-line no-undef
-    chrome.tabs.query({active: true,currentWindow: true},tabs => {
-        callback(tabs[0].id);
+function sendContentScriptMessage(data) {
+    return new Promise((resolve,reject) => {
+        // eslint-disable-next-line no-undef
+        chrome.tabs.query({active: true,currentWindow: true},tabs => {
+            const id = tabs[0].id;
+            // eslint-disable-next-line no-undef
+            chrome.tabs.sendMessage(id,data,response => resolve(response));
+        });
     });
 }
 
-async function gptLoadingWrapper(func,callback,setIsGPTLoading) {
+async function gptLoadingWrapper(func,setIsGPTLoading) {
     setIsGPTLoading(true);
-    const data = await func();
+    await func();
     setIsGPTLoading(false);
-    callback(data);
 }
 
-export default function ChatbotInterface({ choiceFormula, choiceCommentFormula, answerFormula }) {
+export default function ChatbotInterface({ questionPlaceholder, choiceFormula, choiceCommentFormula, answerFormula }) {
     const [chatQuestion,setChatQuestion] = useState("");
     const [submittedQuestion,setSubmittedQuestion] = useState("");
     const [choice,setChoice] = useState("");
+
+    useEffect(() => {
+        if ( submittedQuestion != "" ) setChoice("");
+    },[submittedQuestion]);
 
     return (
         <div className="App">
             <ChatWindow submitQuestion={setChatQuestion} />
             <br />
-            <QuestionArea initialQuestion={chatQuestion} submitQuestion={setSubmittedQuestion} />
+            <QuestionArea questionPlaceholder={questionPlaceholder} initialQuestion={chatQuestion} submitQuestion={setSubmittedQuestion} />
             <br />
             <ChoicesArea question={submittedQuestion} submitChoice={setChoice} choiceFormula={choiceFormula} choiceCommentFormula={choiceCommentFormula} />
             <br />
@@ -44,20 +51,16 @@ function ChatWindow({ submitQuestion }) {
     }
 
     useEffect(() => {
-        getTabID(id => {
-            function pingForData() {
-                // eslint-disable-next-line no-undef
-                chrome.tabs.sendMessage(id,{type: "ping"},receivedData => {
-                    setChatData({
-                        status: receivedData.status,
-                        messages: receivedData.messages ? forwardAssignAuthors(receivedData.messages) : undefined
-                    });
-                });
-            }
+        async function pingForData() {
+            const response = await sendContentScriptMessage({type: "ping"});
+            setChatData({
+                status: response.status,
+                messages: response.messages ? forwardAssignAuthors(response.messages) : null
+            });
+        }
 
-            pingForData();
-            setInterval(pingForData,250);
-        });
+        pingForData();
+        setInterval(pingForData,250);
     },[]);
 
     return (
@@ -72,7 +75,7 @@ function ChatWindow({ submitQuestion }) {
     );
 }
 
-function QuestionArea({ initialQuestion, submitQuestion }) {
+function QuestionArea({ questionPlaceholder, initialQuestion, submitQuestion }) {
     const [question,setQuestion] = useState("");
 
     useEffect(() => {
@@ -82,7 +85,7 @@ function QuestionArea({ initialQuestion, submitQuestion }) {
     return (
         <div class="row">
             <div class="col-9">
-                <textarea class="form-control" rows="3" placeholder="Interviewer question..." value={question} onChange={e => setQuestion(e.target.value)}></textarea>
+                <textarea class="form-control" rows="3" placeholder={questionPlaceholder + "..."} value={question} onChange={e => setQuestion(e.target.value)}></textarea>
             </div>
             <div class="col-3">
                 <button class="btn btn-primary full-size" onClick={() => submitQuestion(question)}>Submit question</button>
@@ -98,8 +101,10 @@ function ChoicesArea({ question, submitChoice, choiceFormula, choiceCommentFormu
 
     useEffect(() => {
         if ( question != "" ) {
-            gptLoadingWrapper(async () => choiceFormula(question),setChoices,setIsGPTLoading);
-            if ( choiceCommentFormula ) gptLoadingWrapper(async () => choiceCommentFormula(question),setChoiceComment,setIsGPTLoading);
+            gptLoadingWrapper(async () => {
+                setChoices(await choiceFormula(question));
+                if ( choiceCommentFormula ) setChoiceComment(await choiceCommentFormula(question));
+            },setIsGPTLoading);
         }
     },[question,choiceFormula]);
 
@@ -125,25 +130,28 @@ function AnswerArea({ choice, answerFormula }) {
     const [isGPTLoading,setIsGPTLoading] = useState(false);
         
     useEffect(() => {
-        if ( choice != "" ) gptLoadingWrapper(async () => answerFormula(choice),setAnswer,setIsGPTLoading);
+        if ( choice != "" ) {
+            gptLoadingWrapper(async () => setAnswer(await answerFormula(choice)),setIsGPTLoading);
+        } else {
+            setAnswer("");
+        }
     },[choice,answerFormula]);
 
-    function submitAnswer() {
-        getTabID(id => {
-            // eslint-disable-next-line no-undef
-            chrome.tabs.sendMessage(id,{type: "submit_text", data: answer},() => {});
-        });
+    async function submitAnswer() {
+        await sendContentScriptMessage({type: "submit_text", data: answer});
     }
 
     if ( isGPTLoading ) return (<GPTLoadingIcon />);
+
     if ( answer == "" ) return null;
+    
     return (
         <div class="row">
             <div class="col-9">
-                <p>{ answer }</p>
+                <p class="AnswerArea-Answer">{ answer }</p>
             </div>
             <div class="col-3">
-                <button class="btn btn-primary full-size" onClick={submitAnswer}>Submit answer</button>
+                <button className="btn btn-primary full-size" onClick={submitAnswer}>Submit answer</button>
             </div>
         </div>
     );

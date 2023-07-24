@@ -14,6 +14,7 @@ export default function TimelineChatbot() {
     
     return (
         <ChatbotInterface
+            questionPlaceholder="Task description"
             choiceFormula={async question => {
                 return ["Accept","Reject"];
             }}
