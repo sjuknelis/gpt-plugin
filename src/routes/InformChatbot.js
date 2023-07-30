@@ -7,11 +7,18 @@ export default function InformChatbot() {
     const [messageList,setMessageList] = useState(null);
 
     useEffect(() => {
-        setMessageHistory([
-            {role: "system", content: "You are an assistant helping a freelancer by providing information about how they can successfully run their small business."},
-            {role: "assistant", content: "Hello! How can I help you?"}
-        ]);
-        setMessageList(messageHistory);
+        async function fetchDataMessages() {
+            const response = await fetch("http://localhost:8000/inform_msgs");
+            const dataMessages = await response.json();
+            setMessageHistory([
+                {role: "system", content: "You are an assistant helping a freelancer by providing information about how they can successfully run their small business."},
+                ...dataMessages,
+                {role: "assistant", content: "Hello! How can I help you?"}
+            ]);
+            setMessageList(messageHistory);
+        }
+
+        fetchDataMessages();
     },[]);
 
     const reformatMessages = messages => messages.filter(message => message.role != "system").map(message => {
