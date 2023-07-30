@@ -1,15 +1,15 @@
 import { useEffect } from "react";
 import ChatbotInterface from "../components/ChatbotInterface";
 import useSettings from "../hooks/useSettings";
-import { messageHistory, gptRequest } from "../lib/gptRequest";
+import { messageHistory, gptRequest, setMessageHistory } from "../lib/gptRequest";
 
 export default function TimelineChatbot() {
     const [settings,setSettings] = useSettings();
     
     useEffect(() => {
-        messageHistory = [
+        setMessageHistory([
             {role: "system", content: `You are an assistant helping a freelancer manage client expectations. Here is the job description: ${settings.jobDescription}`}
-        ];
+        ]);
     });
     
     return (

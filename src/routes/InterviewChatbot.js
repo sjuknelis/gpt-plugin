@@ -1,16 +1,16 @@
 import { useEffect } from "react";
 import ChatbotInterface from "../components/ChatbotInterface";
 import useSettings from "../hooks/useSettings";
-import { messageHistory, gptRequest } from "../lib/gptRequest";
+import { messageHistory, gptRequest, setMessageHistory } from "../lib/gptRequest";
 
 export default function InterviewChatbot() {
     const [settings,setSettings] = useSettings();
 
     useEffect(() => {
-        messageHistory = [
+        setMessageHistory([
             {role: "system", content: `You are an assistant helping a freelancer during an interview with a potential client. Here is the freelancer's resume: ${settings.resume}`},
             {role: "system", content: `Here is the job description: ${settings.jobDescription}`}
-        ];
+        ]);
     },[]);
 
     return (

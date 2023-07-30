@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import ChatWindow from './ChatWindow';
+import GPTLoadingIcon from './GPTLoadingIcon';
 import './ChatbotInterface.css';
 
 function sendContentScriptMessage(data) {
@@ -102,7 +103,7 @@ function ChoicesArea({ question, submitChoice, choiceFormula, choiceCommentFormu
         }
     },[question,choiceFormula,choiceCommentFormula]);
 
-    if ( isGPTLoading ) return (<GPTLoadingIcon />);
+    if ( isGPTLoading ) return (<GPTLoadingIcon size={48} center={true} />);
 
     if ( choices == null ) return null;
 
@@ -135,7 +136,7 @@ function AnswerArea({ choice, answerFormula }) {
         await sendContentScriptMessage({type: "submit_text", data: answer});
     }
 
-    if ( isGPTLoading ) return (<GPTLoadingIcon />);
+    if ( isGPTLoading ) return (<GPTLoadingIcon size={48} center={true} />);
 
     if ( answer == "" ) return null;
     
@@ -148,11 +149,5 @@ function AnswerArea({ choice, answerFormula }) {
                 <button className="btn btn-primary full-size" onClick={submitAnswer}>Submit answer</button>
             </div>
         </div>
-    );
-}
-
-function GPTLoadingIcon() {
-    return (
-        <div className="GPTLoadingIcon"></div>
     );
 }

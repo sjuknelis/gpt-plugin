@@ -45,7 +45,6 @@ function PDFItem({ settings, setSettings, settingsKey, title }) {
                     }
 
                     return Promise.all(countPromises).then(texts => {
-                        console.log(texts);
                         resolve(texts.join(""));
                     });
                 });
@@ -62,7 +61,7 @@ function PDFItem({ settings, setSettings, settingsKey, title }) {
             </p>
             <p>
                 <span>Copy and paste, or upload a PDF:</span>
-                <input type="file" onChange={async e => updateSetting(await readPDFText(e))} />
+                <input type="file" onChange={async event => updateSetting(await readPDFText(event))} />
             </p>
             <textarea class="form-control" rows="3" placeholder={`${title}...`} value={settings[settingsKey]} onChange={e => updateSetting(e.target.value)}></textarea>
             <hr />

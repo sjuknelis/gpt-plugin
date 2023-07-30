@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import ChatbotInterface from "../components/ChatbotInterface";
-import { gptRequest, messageHistory } from "../lib/gptRequest";
+import { gptRequest, messageHistory, setMessageHistory } from "../lib/gptRequest";
 import useSettings from "../hooks/useSettings";
 
 export default function FinancialChatbot() {
     const [settings,setSettings] = useSettings();
 
     useEffect(() => {
-        messageHistory = [
+        setMessageHistory([
             {role: "system", content: `You are an assistant helping a freelancer to manage their financial arrangements with a client. Here is the freelancer's resume: ${settings.resume}`},
             {role: "system", content: `Here is the job description: ${settings.jobDescription}`}
-        ];
+        ]);
     },[]);
 
     const [tasks,setTasks] = useState({

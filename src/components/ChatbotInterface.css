@@ -24,18 +24,3 @@
 .AnswerArea-Answer {
     margin-bottom: 0;
 }
-
-.GPTLoadingIcon {
-    margin: auto;
-    border: 0.5em solid #fff;
-    border-top: 0.5em solid #48f;
-    border-radius: 50%;
-    width: 3em;
-    height: 3em;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}

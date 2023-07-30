@@ -31,22 +31,36 @@ export default function InformChatbot() {
         }
     });
 
-    const textBox = useRef(null);
+    const messageInput = useRef(null);
+
+    const [isGPTLoading,setIsGPTLoading] = useState(false);
 
     async function sendMessage() {
-        const userMessage = textBox.current.value;
-        textBox.current.value = "";
+        const userMessage = messageInput.current.value;
+        messageInput.current.value = "";
+        setMessageList([
+            ...messageList,
+            {role: "user", content: userMessage}
+        ]);
+
+        setIsGPTLoading(true);
         await gptRequest(userMessage);
+        setIsGPTLoading(false);
+
         setMessageList([...messageHistory]);
     }
 
     return (
         <>
-            <ChatWindow messages={messageList ? reformatMessages(messageList) : null} onMessageClick={() => {}} className="InformChatWindow" />
-            <br />
+            <ChatWindow
+                messages={messageList ? reformatMessages(messageList) : null}
+                onMessageClick={() => {}}
+                loadingAuthor={isGPTLoading ? "GPT-Coworker" : null}
+                className="InformChatWindow"
+            />
             <div className="row">
                 <div className="col-9">
-                    <input ref={textBox} type="text" className="MessageBox" onKeyDown={event => event.key == "Enter" ? sendMessage() : null} />
+                    <input ref={messageInput} type="text" className="MessageBox" onKeyDown={event => event.key == "Enter" ? sendMessage() : null} />
                 </div>
                 <div className="col-3">
                     <button className="btn btn-primary full-size" onClick={sendMessage}>Submit</button>
