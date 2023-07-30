@@ -1,0 +1,7 @@
+.ChatWindow {
+    overflow-x: hidden;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border: 1px solid gray;
+    border-radius: 0.5em;
+}

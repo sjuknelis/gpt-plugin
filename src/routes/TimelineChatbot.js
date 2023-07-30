@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import ChatbotInterface from "../components/ChatbotInterface";
 import useSettings from "../hooks/useSettings";
-import { messageHistory, gptRequest } from "../gpt";
+import { messageHistory, gptRequest } from "../lib/gptRequest";
 
 export default function TimelineChatbot() {
     const [settings,setSettings] = useSettings();

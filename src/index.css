@@ -8,7 +8,8 @@ body {
     height: calc(600px - 2rem);
 }
 
-.App {
+#root {
+    height: calc(600px - 2rem);
     padding-bottom: 1rem;
 }
 

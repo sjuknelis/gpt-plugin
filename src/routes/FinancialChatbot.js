@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import TaskList from "../components/TaskList";
 import ChatbotInterface from "../components/ChatbotInterface";
-import { gptRequest, messageHistory } from "../gpt";
+import { gptRequest, messageHistory } from "../lib/gptRequest";
 import useSettings from "../hooks/useSettings";
 
 export default function FinancialChatbot() {
@@ -24,8 +24,9 @@ export default function FinancialChatbot() {
     return (
         <>
             <TaskList tasks={tasks} setTasks={setTasks} selectedKey={selectedKey} setSelectedKey={setSelectedKey} />
+            <br />
             <ChatbotInterface
-                questionPlaceholder="Finance question from client (leave blank to create prompt)..."
+                questionPlaceholder="Finance question from client (leave blank to create a topic prompt for the client)..."
                 choiceFormula={async question => {
                     return await gptRequest(``);
                 }}

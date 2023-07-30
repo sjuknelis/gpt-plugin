@@ -1,0 +1,9 @@
+.InformChatWindow {
+    height: calc(600px - 13rem);
+}
+
+.MessageBox {
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}

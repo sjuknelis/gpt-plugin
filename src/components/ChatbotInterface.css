@@ -1,10 +1,5 @@
-.ChatWindow {
+.ContentChatWindow-InnerWindow {
     height: 25vh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    white-space: pre-wrap;
-    border: 1px solid gray;
-    border-radius: 0.5em;
 }
 
 .ChoicesArea {

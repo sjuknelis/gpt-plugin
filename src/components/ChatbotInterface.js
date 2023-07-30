@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import ChatWindow from './ChatWindow';
 import './ChatbotInterface.css';
 
 function sendContentScriptMessage(data) {
@@ -29,7 +30,7 @@ export default function ChatbotInterface({ questionPlaceholder, choiceFormula, c
 
     return (
         <div className="App">
-            <ChatWindow submitQuestion={setChatQuestion} />
+            <ContentChatWindow submitQuestion={setChatQuestion} />
             <br />
             <QuestionArea questionPlaceholder={questionPlaceholder} initialQuestion={chatQuestion} submitQuestion={setSubmittedQuestion} />
             <br />
@@ -40,7 +41,7 @@ export default function ChatbotInterface({ questionPlaceholder, choiceFormula, c
     );
 }
 
-function ChatWindow({ submitQuestion }) {
+function ContentChatWindow({ submitQuestion }) {
     const [chatData,setChatData] = useState({status: "noconn"});
 
     function forwardAssignAuthors(messages) {
@@ -64,14 +65,7 @@ function ChatWindow({ submitQuestion }) {
     },[]);
 
     return (
-        <div class="ChatWindow">
-            { chatData.messages ? chatData.messages.map(message => (
-                <div class="row">
-                    <td class="col-3">{ message.author }</td>
-                    <td class="col-9" onClick={() => submitQuestion(message.content)}>{ message.content }</td>
-                </div>
-            )) : null }
-        </div>
+        <ChatWindow messages={chatData.messages} onMessageClick={submitQuestion} className="ContentChatWindow-InnerWindow" />
     );
 }
 
@@ -83,12 +77,12 @@ function QuestionArea({ questionPlaceholder, initialQuestion, submitQuestion }) 
     },[initialQuestion]);
 
     return (
-        <div class="row">
-            <div class="col-9">
-                <textarea class="form-control" rows="3" placeholder={questionPlaceholder + "..."} value={question} onChange={e => setQuestion(e.target.value)}></textarea>
+        <div className="row">
+            <div className="col-9">
+                <textarea className="form-control" rows="3" placeholder={questionPlaceholder + "..."} value={question} onChange={e => setQuestion(e.target.value)}></textarea>
             </div>
-            <div class="col-3">
-                <button class="btn btn-primary full-size" onClick={() => submitQuestion(question)}>Submit question</button>
+            <div className="col-3">
+                <button className="btn btn-primary full-size" onClick={() => submitQuestion(question)}>Submit question</button>
             </div>
         </div>
     );
@@ -106,7 +100,7 @@ function ChoicesArea({ question, submitChoice, choiceFormula, choiceCommentFormu
                 if ( choiceCommentFormula ) setChoiceComment(await choiceCommentFormula(question));
             },setIsGPTLoading);
         }
-    },[question,choiceFormula]);
+    },[question,choiceFormula,choiceCommentFormula]);
 
     if ( isGPTLoading ) return (<GPTLoadingIcon />);
 
@@ -146,11 +140,11 @@ function AnswerArea({ choice, answerFormula }) {
     if ( answer == "" ) return null;
     
     return (
-        <div class="row">
-            <div class="col-9">
-                <p class="AnswerArea-Answer">{ answer }</p>
+        <div className="row">
+            <div className="col-9">
+                <p className="AnswerArea-Answer">{ answer }</p>
             </div>
-            <div class="col-3">
+            <div className="col-3">
                 <button className="btn btn-primary full-size" onClick={submitAnswer}>Submit answer</button>
             </div>
         </div>

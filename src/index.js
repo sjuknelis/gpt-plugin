@@ -7,6 +7,7 @@ import SettingsMenu from "./routes/SettingsMenu";
 import InterviewChatbot from "./routes/InterviewChatbot";
 import TimelineChatbot from "./routes/TimelineChatbot";
 import FinancialChatbot from "./routes/FinancialChatbot";
+import InformChatbot from "./routes/InformChatbot";
 
 const routes = [
     {
@@ -28,6 +29,11 @@ const routes = [
         path: "/financial",
         element: <FinancialChatbot />,
         title: "Financial"
+    },
+    {
+        path: "/inform",
+        element: <InformChatbot />,
+        title: "Inform"
     }
 ];
 

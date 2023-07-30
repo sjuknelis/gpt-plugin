@@ -14,4 +14,8 @@ async function gptRequest(messageContent) {
     return response.content;
 }
 
-export { messageHistory, gptRequest };
+function setMessageHistory(newMessageHistory) {
+    messageHistory = newMessageHistory;
+}
+
+export { messageHistory, gptRequest, setMessageHistory };
