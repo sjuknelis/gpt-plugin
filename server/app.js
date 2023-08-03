@@ -58,7 +58,7 @@ app.use(express.json());
 
 app.post("/gpt_request",async (request,response) => {
     const completion = await openai.createChatCompletion({
-        model: "gpt-3.5-turbo",
+        model: "gpt-3.5-turbo-16k",
         messages: request.body
     });
     const responseContent = completion.data.choices[0].message;
