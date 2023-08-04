@@ -43,12 +43,7 @@ const openai = new OpenAIApi(config);
     });
 })();*/
 
-const informData = JSON.parse(fs.readFileSync("inform_data.json").toString()).map(item => {
-    return {
-        role: "system",
-        content: `Here is the text of an article about ${item.topic}: ${item.text}`
-    }
-});
+const informData = JSON.parse(fs.readFileSync("inform_data.json").toString());
 
 const app = express();
 
@@ -65,7 +60,7 @@ app.post("/gpt_request",async (request,response) => {
     response.send(responseContent);
 });
 
-app.get("/inform_msgs",async (request,response) => {
+app.get("/inform_data",async (request,response) => {
     response.send(informData);
 });
 

@@ -14,16 +14,11 @@ export default function FinancialChatbot() {
         ]);
     },[]);
 
-    const [tasks,setTasks] = useState({
-        "Negotiating rates": false,
-        "Setting terms of payment": false,
-        "Writing/sending invoices": false
-    });
-    const [selectedKey,setSelectedKey] = useState(null);
+    const [selectedTask,setSelectedTask] = useState(null);
 
     return (
         <>
-            <TaskList tasks={tasks} setTasks={setTasks} selectedKey={selectedKey} setSelectedKey={setSelectedKey} />
+            <TaskList selectedTask={selectedTask} setSelectedTask={setSelectedTask} />
             <br />
             <ChatbotInterface
                 questionPlaceholder="Finance question from client (leave blank to create a topic prompt for the client)..."
