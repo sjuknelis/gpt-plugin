@@ -1,6 +1,12 @@
 # gpt-plugin
 
-To run:
+To run the server which provides the GPT API:
+
+1. Inside `server`, run `npm install`
+2. Place a GPT API key in `apikey.txt` inside `server`
+3. Run `app.js` with Node
+
+To run the extension:
 
 1. Run `npm install`
 2. Run `npm run build`
