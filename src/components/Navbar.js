@@ -9,7 +9,7 @@ export default function Navbar({ routes }) {
     return (
         <div className="row Navbar">
             <div className="col">
-                <a className="brand" href="#">GPT-Coworker</a>
+                <a className="brand" href="#">GPT-CW</a>
             </div>
             {
                 routes.map(route => (
